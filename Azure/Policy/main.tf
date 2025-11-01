@@ -12,7 +12,7 @@ provider "azurerm" {
   features {}
 }
 
-data "azurerm_subscription" "example" {
+data "azurerm_subscription" "azure_subscription" {
 }
 
 ## Get the list of Policies
@@ -21,13 +21,22 @@ data "azurerm_policy_definition" "custom_policies_definitions" {
   display_name = var.policies_definitions_list[count.index]
 
   depends_on = [
-    azurerm_policy_definition.logicappdenyha, azurerm_policy_definition.logicappauditha, azurerm_policy_definition.logicappdisableha
+    azurerm_policy_definition.logicappdenyha, 
+    azurerm_policy_definition.logicappauditha, 
+    azurerm_policy_definition.logicappdisableha
   ]
 }
 
-data "azurerm_policy_set_definition" "custom_policies_set_definitions" {
-  display_name = "[WAF] Test Initiative"
-}
+# data "azurerm_policy_set_definition" "custom_policies_set_definitions" {
+#   #display_name = "[WAF] Test Initiative"
+#   count        = length(var.policiesset_definitions_list)
+#   display_name = var.policiesset_definitions_list[count.index]
+
+
+#   depends_on = [
+#     azurerm_policy_set_definition.logicappdenyha_polset
+#   ]
+# }
 
 ## Policy Definition
 resource "azurerm_policy_definition" "logicappdenyha" {
@@ -101,8 +110,31 @@ METADATA
   ]
 }
 
-resource "azurerm_subscription_policy_assignment" "wafpolset" {
-  name                 = "teste"
-  policy_definition_id = data.azurerm_policy_set_definition.custom_policies_set_definitions.id
-  subscription_id      = data.azurerm_subscription.example.id
-}
+# resource "azurerm_subscription_policy_assignment" "wafpolset" {
+#   name                 = "Azure Assign Initiative"
+#   policy_definition_id = var.initiative_assign_id
+#   #policy_definition_id = data.azurerm_policy_set_definition.custom_policies_set_definitions[count.index]
+#   subscription_id      = data.azurerm_subscription.azure_subscription.id
+
+#   depends_on = [
+#     azurerm_policy_set_definition.logicappdenyha_polset
+#   ]
+# }
+
+# resource "azurerm_subscription_policy_assignment" "wafpolset" {
+#   name                 = "Azure Assign Initiative"
+# #  policy_definition_id = data.azurerm_policy_set_definition.custom_policies_set_definitions.id
+#   subscription_id      = data.azurerm_subscription.azure_subscription.id
+
+#   dynamic "policy_set_definition_reference" {
+#     for_each = data.azurerm_policy_set_definition.custom_policies_set_definitions
+#     content {
+#       policy_definition_id = policy_set_definition_reference.value["id"]
+#       reference_id         = policy_set_definition_reference.value["id"]
+#     }
+#   }
+
+#   depends_on = [
+#     data.azurerm_policy_set_definition.custom_policies_set_definitions
+#   ]
+# }

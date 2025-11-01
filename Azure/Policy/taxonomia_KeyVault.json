@@ -1,0 +1,107 @@
+{
+  "properties": {
+    "displayName": "Enforce Key Vault Naming Convention Based on Environment Tag",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Ensure that all Key Vaults follow the naming convention kv+azu+{ambiente}+ita+{parâmetro livre}+{sequência numérica} based on the Environment tag.",
+    "metadata": {
+      "category": "Key Vault"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "tags['Ambiente']",
+                    "equals": "dv"
+                  },
+                  {
+                    "not": {
+                      "allOf": [
+                        {
+                          "field": "name",
+                          "like": "kvazu*"
+                        },
+                        {
+                          "field": "name",
+                          "like": "*dvita*"
+                        },
+                        {
+                          "field": "name",
+                          "like": "*[0-9]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "tags['Ambiente']",
+                    "equals": "ho"
+                  },
+                  {
+                    "not": {
+                      "allOf": [
+                        {
+                          "field": "name",
+                          "like": "kvazu*"
+                        },
+                        {
+                          "field": "name",
+                          "like": "*hoita*"
+                        },
+                        {
+                          "field": "name",
+                          "like": "*[0-9]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "tags['Ambiente']",
+                    "equals": "pr"
+                  },
+                  {
+                    "not": {
+                      "allOf": [
+                        {
+                          "field": "name",
+                          "like": "kvazu*"
+                        },
+                        {
+                          "field": "name",
+                          "like": "*prita*"
+                        },
+                        {
+                          "field": "name",
+                          "like": "*[0-9]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}

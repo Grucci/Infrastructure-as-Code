@@ -100,11 +100,21 @@ variable "policies_definitions_list"{
     description = "List of policy definitions"
     type = list
     default = [
-        "Deny Logic Apps Without High Availability",
-        "Audit Logic Apps Without High Availability",
-        "Disable Logic Apps Without High Availability"
     ]
 }
+
+variable "initiative_assign_id" {
+    description = "value"
+    type = string
+    default = "value"
+}
+
+# variable "policiesset_definitions_list"{
+#     description = "list of policy definitions"
+#     type = list
+#     default = [
+#     ]
+# }
 
 ## Initiative Category
 variable "policyset_definition_category" {

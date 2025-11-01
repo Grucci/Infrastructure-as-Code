@@ -1,4 +1,5 @@
 resource "azurerm_resource_group" "example" {
-    name     = var.rg_name
-    location = var.rg_location
+    name     = "rg${var.rg_foundation.environment}${var.resource_group.name}"
+    location = var.rg_foundation.location
+    tags     = var.tags
 }

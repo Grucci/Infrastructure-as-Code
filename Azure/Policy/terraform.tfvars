@@ -20,3 +20,15 @@ policy_display_namev3 = "Disable Logic Apps Without High Availability"
 policy_descriptionv3  = "Test DISABLE Deployment of Logic Apps Without High Availability"
 policy_modev3         = "Indexed"
 policy_typev3         = "Custom"
+
+policies_definitions_list = [
+        "Deny Logic Apps Without High Availability",
+        "Audit Logic Apps Without High Availability",
+        "Disable Logic Apps Without High Availability"
+]
+
+initiative_assign_id = "[WAF] Test Initiative"
+
+# policiesset_definitions_list = [
+#         "[waf] test initiative"
+# ]
